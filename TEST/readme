@@ -1,0 +1,167 @@
+📘 Linux System Administration – Practical Assignment
+👩‍💻 Candidate:
+
+All tasks have been completed successfully and verified.
+
+1️⃣ Permissions & umask (Practical)
+🔹 Create a file with default permissions
+touch test.txt
+ls -l test.txt
+Example Output:
+-rw-r--r-- 1 ubuntu ubuntu 0 Feb 27 10:00 test.txt
+🔹 Check umask value
+umask
+
+Example:
+
+0022
+🔹 Explanation
+
+Default file permission = 666
+Umask = 022
+
+Final permission = 666 - 022 = 644
+
+So the file permission becomes:
+
+-rw-r--r--
+2️⃣ Users (Practical)
+🔹 Create user intern1 with bash shell and 7-day expiry
+sudo useradd -m -s /bin/bash -e $(date -d "+7 days" +%Y-%m-%d) intern1
+🔹 Verify expiry date
+sudo chage -l intern1
+3️⃣ SSH (Practical)
+🔹 Generate SSH keypair
+ssh-keygen
+🔹 Add public key for passwordless login
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+🔹 Test SSH login
+ssh -i ~/.ssh/id_rsa localhost
+4️⃣ Package Management (Practical)
+🔹 Install htop
+sudo apt update
+sudo apt install htop
+🔹 Find which package provides /bin/bash
+dpkg -S /bin/bash
+
+Expected Output:
+
+bash: /bin/bash
+5️⃣ Cron (Practical)
+🔹 Create Cron Job
+crontab -e
+
+Add:
+
+* * * * * /usr/bin/date >> /tmp/cron_test.log
+🔹 Verify Cron Job
+crontab -l
+6️⃣ Systemd Timer (Practical)
+🔹 Create Service File
+
+/etc/systemd/system/hello.service
+
+[Unit]
+Description=Echo Hello from systemd
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'echo "Hello from systemd" >> /tmp/hello.txt'
+🔹 Create Timer File
+
+/etc/systemd/system/hello.timer
+
+[Unit]
+Description=Run Hello Service Every 2 Minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=2min
+Unit=hello.service
+
+[Install]
+WantedBy=timers.target
+🔹 Enable and Start Timer
+sudo systemctl daemon-reload
+sudo systemctl enable hello.timer
+sudo systemctl start hello.timer
+🔹 Check Active Timers
+systemctl list-timers
+7️⃣ Network (Practical)
+🔹 Ping & Traceroute
+ping -c 1 8.8.8.8
+traceroute example.com
+🔹 Check Listening Ports
+ss -tulnp
+
+Check port 80 specifically:
+
+ss -tulnp | grep :80
+🔹 Capture 5 HTTP Packets
+sudo tcpdump -i eth0 port 80 -c 5 -w /tmp/http.pcap
+curl http://localhost
+🔹 Block IP using UFW
+sudo ufw deny from 10.0.2.55 to any port 80
+sudo ufw status numbered
+🔹 Show HTTP Headers
+curl -I http://example.com
+🔹 Show A Record
+dig +short example.com
+8️⃣ Monitoring (Practical)
+🔹 Check Disk Usage
+df -h
+du -sh /var/log
+🔹 Top 3 Processes by Memory
+ps aux --sort=-%mem | head -3
+
+Explanation: Sorted processes in descending order by memory usage.
+
+🔹 Last 20 Logs
+journalctl -n 20
+tail -n 20 /var/log/syslog
+9️⃣ Logs (Practical)
+🔹 Show Last 20 System Logs
+journalctl -n 20
+🔹 Apache & Nginx Log Locations
+
+Apache:
+
+/var/log/apache2/
+
+Nginx:
+
+/var/log/nginx/
+🔟 Network Troubleshooting
+🔹 Capture Only HTTP Traffic
+sudo tcpdump -i eth0 port 80 -w http.pcap
+1️⃣1️⃣ Small Script (Practical)
+🔹 Script: /tmp/check_disk.sh
+#!/bin/bash
+
+threshold=80
+usage=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
+
+if [ "$usage" -gt "$threshold" ]; then
+    echo "Disk almost full" >&2
+    exit 1
+else
+    echo "Disk OK"
+    exit 0
+fi
+🔹 Make Executable
+chmod +x /tmp/check_disk.sh
+🎁 Bonus
+🔹 stdout vs stderr
+
+stdout (1) → Normal output
+
+stderr (2) → Error output
+
+Example:
+echo "Normal message"
+echo "Error message" >&2
+Redirection Examples:
+./script.sh > output.txt
+./script.sh 2> error.txt
+./script.sh > all.txt 2>&1
