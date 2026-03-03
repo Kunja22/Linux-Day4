@@ -1,1 +1,172 @@
 # Readme file
+# Git Training Assignment
+
+## 1️⃣ Install Git on Local Machine
+
+### Installation Steps
+
+1. Download Git from the official website: https://git-scm.com/
+2. Install Git using default settings.
+3. Verify installation using:
+
+```bash
+git --version
+```
+
+### Screenshot:
+
+📸 *Attach screenshot showing git version in terminal*
+
+---
+
+## 2️⃣ Configure Git (Global & Local Config)
+
+### 🔹 Global Configuration
+
+Global config applies to all repositories in the system.
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
+git config --global --list
+```
+
+### Screenshot:
+
+📸 *Attach screenshot of global git config list*
+
+---
+
+### 🔹 Local Configuration
+
+Local config applies only to a specific repository.
+
+```bash
+git config user.name "Local Name"
+git config user.email "local-email@example.com"
+git config --list
+```
+
+### Screenshot:
+
+📸 *Attach screenshot of local git config*
+
+---
+
+## 3️⃣ Create Git Repository and Commit Files
+
+### Step 1: Create Directory
+
+```bash
+mkdir git-training
+cd git-training
+```
+
+### Step 2: Initialize Git Repository
+
+```bash
+git init
+```
+
+### Step 3: Create Files
+
+```bash
+touch readme.md
+touch app.py
+```
+
+### Step 4: Add Content
+
+Example:
+
+**readme.md**
+
+```markdown
+# Git Training Project
+This is a sample project.
+```
+
+**app.py**
+
+```python
+print("Hello Git")
+```
+
+### Step 5: Stage Files
+
+```bash
+git add .
+```
+
+### Step 6: Commit Changes
+
+```bash
+git commit -m "Initial commit: Added readme.md and app.py"
+```
+
+### Step 7: Check Git Log
+
+```bash
+git log
+```
+
+### Screenshot:
+
+📸 *Attach screenshot of git log showing initial commit*
+
+---
+
+## 4️⃣ Create Branch, Make Changes & Create PR
+
+### Step 1: Create New Branch
+
+```bash
+git checkout -b feature/update-readme
+```
+
+👉 Best Practice:
+Branch naming format → `feature/description-of-change`
+
+---
+
+### Step 2: Make Changes
+
+Update **readme.md**:
+
+```markdown
+# Git Training Project
+This project demonstrates Git branching and pull request workflow.
+```
+
+---
+
+### Step 3: Stage & Commit Changes
+
+```bash
+git add .
+git commit -m "Updated README with project description"
+```
+
+👉 Best Practice:
+
+* Use meaningful commit messages
+* Keep commits small and focused
+
+---
+
+### Step 4: Push Branch to Remote
+
+```bash
+git remote add origin <your-repo-url>
+git push -u origin feature/update-readme
+```
+
+---
+
+### Step 5: Create Pull Request (PR)
+
+1. Go to GitHub repository
+2. Click **Compare & Pull Request**
+3. Add proper title and description
+4. Submit PR
+
